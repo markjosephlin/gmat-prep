@@ -13,14 +13,13 @@ const plans = [
     description: "Try the loop on your first mistakes.",
     highlight: false,
     features: [
-      { label: "Mistakes per month", value: "15" },
-      { label: "Tailored drills", value: "~60" },
-      { label: "AI explanations", value: true },
-      { label: "Spaced repetition", value: true },
-      { label: "Analytics", value: false },
-      { label: "Drill history", value: false },
-      { label: "Screenshot upload", value: false },
-      { label: "Priority support", value: false },
+      "10 mistakes total",
+      "~40 tailored drills",
+      "AI explanations",
+      "Spaced repetition scheduling",
+      "Analytics on weaknesses",
+      "Drill history",
+      "Screenshot upload",
     ],
     cta: null,
   },
@@ -33,14 +32,14 @@ const plans = [
     highlight: true,
     badge: "Most popular",
     features: [
-      { label: "Mistakes per month", value: "Unlimited" },
-      { label: "Tailored drills", value: "Unlimited" },
-      { label: "AI explanations", value: true },
-      { label: "Spaced repetition", value: true },
-      { label: "Analytics", value: true },
-      { label: "Drill history", value: true },
-      { label: "Screenshot upload", value: true },
-      { label: "Priority support", value: false },
+      "Unlimited mistakes",
+      "Unlimited tailored drills",
+      "AI explanations",
+      "Spaced repetition scheduling",
+      "Full analytics on weaknesses",
+      "Drill history",
+      "Screenshot upload",
+      "Cancel anytime",
     ],
     cta: "monthly",
   },
@@ -52,36 +51,26 @@ const plans = [
     description: "For the full prep cycle and retakes.",
     highlight: false,
     features: [
-      { label: "Mistakes per month", value: "Unlimited" },
-      { label: "Tailored drills", value: "Unlimited" },
-      { label: "AI explanations", value: true },
-      { label: "Spaced repetition", value: true },
-      { label: "Analytics", value: true },
-      { label: "Drill history", value: true },
-      { label: "Screenshot upload", value: true },
-      { label: "vs. monthly billing", value: "Save ~$129" },
+      "Unlimited mistakes",
+      "Unlimited tailored drills",
+      "AI explanations",
+      "Spaced repetition scheduling",
+      "Full analytics on weaknesses",
+      "Drill history",
+      "Screenshot upload",
+      "Best value — ~$8/mo",
     ],
     cta: "yearly",
   },
 ];
 
-function FeatureRow({ label, value }: { label: string; value: string | boolean }) {
+function FeatureItem({ text }: { text: string }) {
   return (
-    <div className="flex items-center justify-between py-2.5 border-b border-slate-100 last:border-0">
-      <span className="text-sm text-slate-500">{label}</span>
-      {typeof value === "boolean" ? (
-        value ? (
-          <svg className="w-4 h-4 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-          </svg>
-        ) : (
-          <svg className="w-4 h-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        )
-      ) : (
-        <span className="text-sm font-semibold text-navy">{value}</span>
-      )}
+    <div className="flex items-center gap-2.5 py-1">
+      <svg className="w-4 h-4 text-brand-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+      </svg>
+      <span className="text-sm text-slate-600">{text}</span>
     </div>
   );
 }
@@ -171,10 +160,10 @@ function BillingContent() {
               <span className="text-slate-400 text-sm ml-1">{plan.period}</span>
             </div>
 
-            {/* Feature comparison */}
-            <div className="flex-1 mb-6">
+            {/* Feature list */}
+            <div className="flex-1 mb-6 flex flex-col gap-0.5">
               {plan.features.map((f) => (
-                <FeatureRow key={f.label} label={f.label} value={f.value} />
+                <FeatureItem key={f} text={f} />
               ))}
             </div>
 
