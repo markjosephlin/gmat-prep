@@ -27,7 +27,7 @@ const plans = [
   {
     id: "monthly",
     name: "Monthly",
-    price: "$19.99",
+    price: "$19",
     period: "/ month",
     description: "For a full-time study sprint.",
     highlight: true,
@@ -47,7 +47,7 @@ const plans = [
   {
     id: "yearly",
     name: "Yearly",
-    price: "$99.99",
+    price: "$99",
     period: "/ year",
     description: "For the full prep cycle and retakes.",
     highlight: false,
@@ -59,7 +59,7 @@ const plans = [
       { label: "Analytics", value: true },
       { label: "Drill history", value: true },
       { label: "Screenshot upload", value: true },
-      { label: "vs. monthly billing", value: "Save ~$140" },
+      { label: "vs. monthly billing", value: "Save ~$129" },
     ],
     cta: "yearly",
   },

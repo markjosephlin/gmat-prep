@@ -14,7 +14,7 @@ const plans = [
   {
     name: "Monthly",
     tagline: "For the month of a full-time study sprint.",
-    price: "$19.99",
+    price: "$19",
     period: "/ month",
     badge: "Most popular",
     features: ["200 mistakes / month", "~800 tailored drills", "Full analytics on weaknesses", "Cancel anytime"],
@@ -25,7 +25,7 @@ const plans = [
   {
     name: "Yearly",
     tagline: "For the full prep cycle and retakes.",
-    price: "$99.99",
+    price: "$99",
     period: "/ year",
     features: ["2,000 mistakes / year", "~8,000 tailored drills", "Full analytics on weaknesses", "Lowest effective price per drill"],
     cta: "Start yearly",
