@@ -1,24 +1,24 @@
 const steps = [
   {
-    icon: "✏️",
-    color: "bg-blue-50",
-    title: "Add the question you got wrong",
+    icon: "🎯",
+    color: "bg-green-50",
+    title: "Drill on what actually matters",
     description:
-      "Paste the question text or describe it, then tell us why you think you missed it. A guess is fine.",
+      "Jump straight into fresh GMAT-style questions across Quant, Verbal, and Data Insights — no setup needed.",
   },
   {
     icon: "🔍",
     color: "bg-purple-50",
-    title: "We tell you where the gap is",
+    title: "Log a mistake and we find the gap",
     description:
-      "Claude pinpoints the specific micro-skill behind the mistake — not just the broad topic — so you know exactly what to fix.",
+      "Got a question wrong? Paste it or upload a screenshot. Claude pinpoints the exact concept behind the miss so you know what to fix.",
   },
   {
-    icon: "🎯",
-    color: "bg-green-50",
-    title: "Practice variants that target the gap",
+    icon: "📈",
+    color: "bg-blue-50",
+    title: "Your drills adapt as you improve",
     description:
-      "Fresh GMAT-style drills built around that exact concept, spaced out over time so the fix sticks.",
+      "Every session gets smarter. The more you practice, the more your drills zero in on your weakest concepts — spaced out so the fix sticks.",
   },
 ];
 
@@ -26,9 +26,9 @@ export default function HowItWorks() {
   return (
     <section id="how-it-works" className="max-w-6xl mx-auto px-6 py-24">
       <div className="text-center mb-16">
-        <p className="section-label mb-3">The mistake loop</p>
+        <p className="section-label mb-3">How it works</p>
         <h2 className="text-4xl font-black text-navy">
-          Don&apos;t just review. Target the concept instead.
+          Built for every stage of your prep.
         </h2>
       </div>
 

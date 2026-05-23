@@ -18,11 +18,10 @@ export default function Hero() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="max-w-3xl">
           <h1 className="text-5xl md:text-6xl font-black text-navy leading-[1.08] tracking-tight mb-6">
-            GMAT prep that learns from every question you miss.
+            The smartest way to study for the GMAT.
           </h1>
           <p className="text-lg text-slate-500 max-w-xl mb-10 leading-relaxed">
-            Turn every wrong answer into targeted drills that hit the exact concept
-            you got wrong — backed by spaced repetition so it sticks.
+            AI-powered drills that adapt to your weak spots — whether you&apos;re starting fresh or targeting the exact concepts behind your mistakes.
           </p>
           <div className="flex items-center gap-3 flex-wrap">
             <Link href="/practice" className="btn-primary px-6 py-3 text-base">
