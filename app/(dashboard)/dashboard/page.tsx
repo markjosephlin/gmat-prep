@@ -18,14 +18,17 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userId = await getUserId();
-    Promise.all([getWeakConcepts(userId), getDrillStats(userId)]).then(
+    async function load() {
+      const userId = await getUserId();
+      Promise.all([getWeakConcepts(userId), getDrillStats(userId)]).then(
       ([concepts, drillStats]) => {
         setWeakConcepts(concepts.slice(0, 5));
         setStats(drillStats);
         setLoading(false);
       }
     );
+    }
+    load();
   }, []);
 
   const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
