@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { createClient } from "@/lib/supabase";
 import { useSearchParams } from "next/navigation";
 
@@ -86,7 +86,7 @@ function FeatureRow({ label, value }: { label: string; value: string | boolean }
   );
 }
 
-export default function BillingPage() {
+function BillingContent() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<string>("free");
   const [loading, setLoading] = useState<string | null>(null);
@@ -210,5 +210,13 @@ export default function BillingPage() {
         All plans include access to your drills and history forever. Cancel anytime.
       </p>
     </div>
+  );
+}
+
+export default function BillingPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center py-20"><div className="w-7 h-7 border-2 border-slate-200 border-t-brand-600 rounded-full animate-spin" /></div>}>
+      <BillingContent />
+    </Suspense>
   );
 }
