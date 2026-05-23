@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { saveMistake } from "@/lib/db";
@@ -18,7 +18,7 @@ interface Analysis {
   drill_focus: string;
 }
 
-export default function MistakesPage() {
+function MistakesContent() {
   const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>("input");
   const [inputMode, setInputMode] = useState<InputMode>("text");
@@ -272,5 +272,13 @@ export default function MistakesPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function MistakesPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center py-20"><div className="w-7 h-7 border-2 border-slate-200 border-t-brand-600 rounded-full animate-spin" /></div>}>
+      <MistakesContent />
+    </Suspense>
   );
 }
