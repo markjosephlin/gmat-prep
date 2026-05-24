@@ -52,7 +52,7 @@ export default function LoginPage() {
             <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center">
               <span className="text-white font-bold text-sm">G</span>
             </div>
-            <span className="font-bold text-navy">GMAT Prep</span>
+            <span className="font-bold text-navy">Ascend</span>
           </Link>
           <h1 className="text-2xl font-black text-navy">
             {mode === "signin" ? "Welcome back" : "Create your account"}

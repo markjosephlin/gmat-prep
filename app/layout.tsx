@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "GMAT Prep — Learn from every question you miss",
+  title: "Ascend — The smartest way to study for the GMAT",
   description:
-    "Turn every wrong answer into targeted GMAT drills. AI-powered practice that adapts to your weaknesses.",
+    "AI-powered GMAT drills that adapt to your weak spots. Start fresh or log your mistakes — Ascend builds the perfect practice session either way.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

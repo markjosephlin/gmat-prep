@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase";
+import AscendLogo from "@/components/AscendLogo";
 
 const tabs = [
   { label: "Add mistake", href: "/mistakes" },
@@ -37,10 +38,8 @@ export default function DashboardNav() {
     <header className="bg-[#14532d] border-b border-white/10 sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between gap-6">
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="w-6 h-6 rounded-md bg-brand-600 flex items-center justify-center">
-            <span className="text-white font-bold text-xs">G</span>
-          </div>
-          <span className="text-white font-bold text-sm hidden sm:block">GMAT Prep</span>
+          <AscendLogo size={24} />
+          <span className="text-white font-bold text-sm hidden sm:block">Ascend</span>
         </Link>
 
         <nav className="flex items-center gap-1">

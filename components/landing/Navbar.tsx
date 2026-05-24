@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import AscendLogo from "@/components/AscendLogo";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,10 +11,8 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center">
-            <span className="text-white font-bold text-sm">G</span>
-          </div>
-          <span className="font-bold text-navy text-sm">GMAT Prep</span>
+          <AscendLogo size={28} />
+          <span className="font-bold text-navy text-sm">Ascend</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-7">
