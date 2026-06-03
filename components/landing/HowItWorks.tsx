@@ -11,7 +11,7 @@ const steps = [
     color: "bg-purple-50",
     title: "Log a mistake and we find the gap",
     description:
-      "Got a question wrong? Paste it or upload a screenshot. Claude pinpoints the exact concept behind the miss so you know what to fix.",
+      "Got a question wrong? Paste it or upload a screenshot. Our AI pinpoints the exact concept behind the miss so you know what to fix.",
   },
   {
     icon: "📈",
