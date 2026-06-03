@@ -15,14 +15,17 @@ interface Props {
 
 function renderMarkdown(text: string): ReactNode[] {
   return text.split("\n").map((line, lineIdx) => {
+    const isListItem = line.trimStart().startsWith("- ");
+    const processedLine = isListItem ? line.trimStart().slice(2) : line;
+
     const parts: ReactNode[] = [];
     const regex = /\*\*(.+?)\*\*|\*(.+?)\*/g;
     let lastIndex = 0;
     let match;
 
-    while ((match = regex.exec(line)) !== null) {
+    while ((match = regex.exec(processedLine)) !== null) {
       if (match.index > lastIndex) {
-        parts.push(line.slice(lastIndex, match.index));
+        parts.push(processedLine.slice(lastIndex, match.index));
       }
       if (match[1] !== undefined) {
         parts.push(<strong key={match.index}>{match[1]}</strong>);
@@ -32,15 +35,12 @@ function renderMarkdown(text: string): ReactNode[] {
       lastIndex = regex.lastIndex;
     }
 
-    if (lastIndex < line.length) {
-      parts.push(line.slice(lastIndex));
+    if (lastIndex < processedLine.length) {
+      parts.push(processedLine.slice(lastIndex));
     }
 
-    const isListItem = line.trimStart().startsWith("- ");
-    const content = isListItem ? parts.slice(1) : parts;
-
     return isListItem ? (
-      <li key={lineIdx} className="ml-4 list-disc">{content}</li>
+      <li key={lineIdx} className="ml-4 list-disc">{parts}</li>
     ) : (
       <span key={lineIdx} className="block">{parts}</span>
     );

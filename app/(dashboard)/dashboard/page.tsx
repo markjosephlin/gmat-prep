@@ -131,7 +131,7 @@ export default function DashboardPage() {
             <div className="card p-5 bg-brand-50 border-brand-100">
               <p className="section-label mb-1">This week&apos;s biggest pattern</p>
               <p className="text-sm text-slate-700">
-                Gaps in <strong>{topWeakConcept.concept}</strong> are driving most of your misses at{" "}
+                Gaps in <strong>{topWeakConcept.concept}</strong>{" "}are driving most of your misses at{" "}
                 {topWeakConcept.accuracy}% accuracy.{" "}
                 <Link href="/practice" className="text-brand-600 font-semibold hover:underline">
                   Start drilling →
