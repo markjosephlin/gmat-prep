@@ -30,6 +30,7 @@ export interface Question {
   type: QuestionType;
   concept: string;
   difficulty: Difficulty;
+  passage?: string;
   text: string;
   choices: AnswerChoice[];
   correct: "A" | "B" | "C" | "D" | "E";

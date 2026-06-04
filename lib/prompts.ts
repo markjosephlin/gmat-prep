@@ -6,21 +6,32 @@ export function buildQuestionPrompt(
   concept: string,
   difficulty: Difficulty
 ): string {
+  const isRC = type === "Reading Comprehension";
+
+  const rcExtra = isRC ? `
+- Write a realistic reading passage (150-200 words) on an academic topic (business, science, history, or social science)
+- The passage field should contain ONLY the passage text — no question in it
+- The text field should contain ONLY the question stem (e.g. "The author's primary purpose is to...")
+- Do NOT include the passage in the text field` : "";
+
+  const rcPassageField = isRC ? `
+  "passage": "The full reading passage text here (150-200 words). Do not include the question here.",` : "";
+
   return `You are an expert GMAT question writer. Generate a single ${difficulty} difficulty ${section} question of type "${type}" that tests the concept: "${concept}".
 
 Requirements:
 - The question must be realistic and match official GMAT style
 - For Data Sufficiency questions, use the standard two-statement format with answer choices A-E
 - Provide exactly 5 answer choices (A-E) unless it's a Two-Part Analysis
-- The explanation should identify the key concept and strategy, not just state the answer
+- The explanation should identify the key concept and strategy, not just state the answer${rcExtra}
 
 Respond with ONLY valid JSON in this exact format:
 {
   "section": "${section}",
   "type": "${type}",
   "concept": "${concept}",
-  "difficulty": "${difficulty}",
-  "text": "question text here",
+  "difficulty": "${difficulty}",${rcPassageField}
+  "text": "${isRC ? "question stem only, no passage" : "question text here"}",
   "choices": [
     {"letter": "A", "text": "answer A"},
     {"letter": "B", "text": "answer B"},
