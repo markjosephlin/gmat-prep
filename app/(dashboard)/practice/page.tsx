@@ -18,7 +18,13 @@ const SECTION_CONCEPTS: Record<GmatSection, string[]> = {
   "Data Insights": ["Data Sufficiency", "Table Interpretation", "Graph Reading", "Two-Part Algebra", "Percentage Change"],
 };
 
-const QUESTION_COUNTS: (number | null)[] = [5, 10, 15, 20, null]; // null = unlimited
+const QUESTION_COUNTS: (number | null)[] = [5, 10, 15, null]; // null = unlimited
+
+const GMAT_FULL_COUNT: Record<GmatSection, number> = {
+  Quantitative: 21,
+  Verbal: 23,
+  "Data Insights": 20,
+};
 const TIME_LIMITS: { label: string; value: number | null }[] = [
   { label: "No limit", value: null },
   { label: "5 min", value: 5 },
@@ -244,7 +250,7 @@ export default function PracticePage() {
           {/* Number of questions */}
           <div>
             <label className="text-sm font-semibold text-navy mb-3 block">Number of questions</label>
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {QUESTION_COUNTS.map((n) => (
                 <button
                   key={String(n)}
@@ -255,9 +261,19 @@ export default function PracticePage() {
                       : "border-slate-200 text-slate-600 hover:border-slate-300"
                   }`}
                 >
-                  {n === null ? "∞" : n}
+                  {n === null ? "∞ Unlimited" : n}
                 </button>
               ))}
+              <button
+                onClick={() => setNumQuestions(GMAT_FULL_COUNT[section])}
+                className={`py-2.5 rounded-xl text-sm font-medium border transition-all col-span-3 ${
+                  numQuestions === GMAT_FULL_COUNT[section]
+                    ? "border-brand-600 bg-brand-50 text-brand-700"
+                    : "border-slate-200 text-slate-600 hover:border-slate-300"
+                }`}
+              >
+                🎯 Full GMAT section — {GMAT_FULL_COUNT[section]} questions
+              </button>
             </div>
           </div>
 
