@@ -18,7 +18,7 @@ const SECTION_CONCEPTS: Record<GmatSection, string[]> = {
   "Data Insights": ["Data Sufficiency", "Table Interpretation", "Graph Reading", "Two-Part Algebra", "Percentage Change"],
 };
 
-const QUESTION_COUNTS = [5, 10, 15, 20];
+const QUESTION_COUNTS: (number | null)[] = [5, 10, 15, 20, null]; // null = unlimited
 const TIME_LIMITS: { label: string; value: number | null }[] = [
   { label: "No limit", value: null },
   { label: "5 min", value: 5 },
@@ -37,7 +37,7 @@ function formatTime(seconds: number): string {
 export default function PracticePage() {
   const [sessionStarted, setSessionStarted] = useState(false);
   const [section, setSection] = useState<GmatSection>("Quantitative");
-  const [numQuestions, setNumQuestions] = useState(5);
+  const [numQuestions, setNumQuestions] = useState<number | null>(5);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [timeLimitMinutes, setTimeLimitMinutes] = useState<number | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -96,7 +96,8 @@ export default function PracticePage() {
     setTargetedConcepts(sectionWeak.length > 0 && selectedTopics.length === 0 ? conceptsToUse : []);
 
     const types = SECTION_TYPES[section];
-    const requests = Array.from({ length: numQuestions }, (_, i) => {
+    const batchSize = numQuestions === null ? 3 : numQuestions;
+    const requests = Array.from({ length: batchSize }, (_, i) => {
       const type = types[i % types.length];
       const concept = conceptsToUse[i % conceptsToUse.length];
       return fetch("/api/generate-question", {
@@ -152,13 +153,52 @@ export default function PracticePage() {
     resultsRef.current = newResults;
     setResults(newResults);
 
-    if (currentIndex + 1 >= questions.length) {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      setTimeLeft(null);
-      setSessionDone(true);
+    const isLast = currentIndex + 1 >= questions.length;
+
+    if (numQuestions === null) {
+      // Unlimited mode: generate next question on-the-fly
+      if (isLast) {
+        setLoading(true);
+        const types = SECTION_TYPES[section];
+        const concepts = selectedTopics.length > 0 ? selectedTopics : SECTION_CONCEPTS[section];
+        const idx = questions.length;
+        const type = types[idx % types.length];
+        const concept = concepts[idx % concepts.length];
+        try {
+          const res = await fetch("/api/generate-question", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ section, type, concept, difficulty: "medium" }),
+          });
+          const data = await res.json();
+          const newQ: Question = { ...data.question, id: `q-${idx}-${Date.now()}` };
+          if (newQ && Array.isArray(newQ.choices)) {
+            setQuestions((prev) => [...prev, newQ]);
+            setCurrentIndex((i) => i + 1);
+          }
+        } catch {
+          // if generation fails, end the session
+          setSessionDone(true);
+        }
+        setLoading(false);
+      } else {
+        setCurrentIndex((i) => i + 1);
+      }
     } else {
-      setCurrentIndex((i) => i + 1);
+      if (isLast) {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        setTimeLeft(null);
+        setSessionDone(true);
+      } else {
+        setCurrentIndex((i) => i + 1);
+      }
     }
+  }
+
+  function endSessionEarly() {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setTimeLeft(null);
+    setSessionDone(true);
   }
 
   function resetSession() {
@@ -204,10 +244,10 @@ export default function PracticePage() {
           {/* Number of questions */}
           <div>
             <label className="text-sm font-semibold text-navy mb-3 block">Number of questions</label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-5 gap-2">
               {QUESTION_COUNTS.map((n) => (
                 <button
-                  key={n}
+                  key={String(n)}
                   onClick={() => setNumQuestions(n)}
                   className={`py-2.5 rounded-xl text-sm font-medium border transition-all ${
                     numQuestions === n
@@ -215,7 +255,7 @@ export default function PracticePage() {
                       : "border-slate-200 text-slate-600 hover:border-slate-300"
                   }`}
                 >
-                  {n}
+                  {n === null ? "∞" : n}
                 </button>
               ))}
             </div>
@@ -275,8 +315,8 @@ export default function PracticePage() {
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <div className="w-8 h-8 border-2 border-slate-200 border-t-brand-600 rounded-full animate-spin" />
-        <p className="text-slate-500 text-sm">Generating your {numQuestions} {section} questions…</p>
-        <p className="text-xs text-slate-400">This takes about {numQuestions * 2} seconds</p>
+        <p className="text-slate-500 text-sm">Generating your {numQuestions === null ? "first" : numQuestions} {section} question{numQuestions !== 1 ? "s" : ""}…</p>
+        <p className="text-xs text-slate-400">This takes about {numQuestions === null ? 6 : numQuestions * 2} seconds</p>
       </div>
     );
   }
@@ -355,7 +395,15 @@ export default function PracticePage() {
             <p className="text-xs text-brand-600 font-medium mt-0.5">Targeting your weak spots</p>
           )}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          {numQuestions === null && (
+            <button
+              onClick={endSessionEarly}
+              className="text-xs font-medium text-slate-500 hover:text-red-500 border border-slate-200 hover:border-red-200 px-3 py-1.5 rounded-full transition-colors"
+            >
+              End session
+            </button>
+          )}
           {timeLeft !== null && (
             <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold transition-colors ${
               timerWarning ? "bg-red-100 text-red-600 animate-pulse" : "bg-slate-100 text-slate-600"
